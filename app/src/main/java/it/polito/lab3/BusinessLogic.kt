@@ -1,12 +1,19 @@
 package it.polito.lab3
 
 import androidx.lifecycle.LiveData
+import androidx.room.Room
 
 class BusinessLogic {
 
-    fun getExitingReservation(): LiveData<List<Reservation>>? {
+    lateinit var reservationDates:ArrayList<String>
+    lateinit var reserved:ReservationDAO
 
-        return null
+
+
+    fun getReservationByUser(userId:Int): ArrayList<String>? {
+
+        reservationDates.addAll(reserved.loadAllByIds(userId))
+        return reservationDates
     }
 
     fun addNewReservation(reservation: Reservation): LiveData<Boolean>? {

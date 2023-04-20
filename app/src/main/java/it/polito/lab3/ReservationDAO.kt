@@ -11,8 +11,8 @@ interface ReservationDAO{
     @Query("SELECT * FROM reservation")
     fun getAll(): List<Reservation>
 
-    @Query("SELECT * FROM reservation WHERE uid IN (:reservationId)")
-    fun loadAllByIds(userIds: IntArray): List<Reservation>
+    @Query("SELECT reserve_date FROM reservation WHERE userId IN (:userId)")
+    fun loadAllByIds(userId: Int): List<String>
 
     @Insert
     fun insertAll(vararg reservation: Reservation)
