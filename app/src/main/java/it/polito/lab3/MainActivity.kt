@@ -1,7 +1,9 @@
 package it.polito.lab3
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +13,12 @@ import com.stacktips.view.CustomCalendarView
 import com.stacktips.view.DayDecorator
 import com.stacktips.view.DayView
 import com.stacktips.view.utils.CalendarUtils
+import it.polito.lab3.databinding.ActivityMainBinding
+import it.polito.lab3.models.Sport
+import it.polito.lab3.viewModel.SportViewModel
+import org.json.JSONArray
+import org.json.JSONException
+import java.io.BufferedReader
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -20,11 +28,19 @@ import java.util.Date
 
 class MainActivity : AppCompatActivity() {
 
+    val sportsData = ArrayList<Sport>()
+    private lateinit var binding: ActivityMainBinding
+    lateinit var sportViewModel: SportViewModel
+
+
+
+
     lateinit var viewModal: UserReservationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         /*
         viewModal= ViewModelProvider(
@@ -39,19 +55,8 @@ class MainActivity : AppCompatActivity() {
         viewModal.loadReservation("2")
         //////
 
-        //creating a view modal here
-/*
-
-
-        viewModal.reservationDates
-
-        viewModal.reservationDates.observe(this, Observer { list ->
-            list?.let {
-                list.addAll()
-            }
-        })*/
-
-
+//        courtAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, courtData)
+//        binding.courtSpinner?.adapter = courtAdapter
 
         //Initialize CustomCalendarView from layout
         val calendarView: CustomCalendarView = findViewById(R.id.calendar_view);
@@ -92,6 +97,11 @@ class MainActivity : AppCompatActivity() {
         decorators.add(ReservationColorDecorator(viewModal))
         calendarView.decorators = decorators
         calendarView.refreshCalendar(currentCalendar)
+
+        sportViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application))
+            .get( SportViewModel::class.java )
+
+        Log.d("gg", sportViewModel.all.toString())
     }
 
 
@@ -109,8 +119,6 @@ class MainActivity : AppCompatActivity() {
 
 
         override fun decorate(dayView: DayView) {
-
-
             val date1: Date = dayView.date
             val color: Int = Color.parseColor("#00ff00")
 
