@@ -13,7 +13,7 @@ import com.stacktips.view.CustomCalendarView
 import com.stacktips.view.DayDecorator
 import com.stacktips.view.DayView
 import com.stacktips.view.utils.CalendarUtils
-import it.polito.lab3.databinding.ActivityMainBinding
+//import it.polito.lab3.databinding.ActivityMainBinding
 import it.polito.lab3.models.Sport
 import it.polito.lab3.viewModel.SportViewModel
 import org.json.JSONArray
@@ -29,7 +29,7 @@ import java.util.Date
 class MainActivity : AppCompatActivity() {
 
     val sportsData = ArrayList<Sport>()
-    private lateinit var binding: ActivityMainBinding
+   // private lateinit var binding: ActivityMainBinding
     lateinit var sportViewModel: SportViewModel
 
 

@@ -8,7 +8,7 @@ import it.polito.lab3.dao.SportDao
 import it.polito.lab3.models.Sport
 
 
-@Database(entities = [Reservation::class, Sport::class], version = 1)
+@Database(entities = [Reservation::class, Sport::class], version = 2)
 abstract class AppDatabase:RoomDatabase() {
     abstract fun reservationDao(): ReservationDAO
 

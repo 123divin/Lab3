@@ -14,16 +14,16 @@ class UserReservationViewModel(application: Application):AndroidViewModel(applic
      val reservationDates:MutableLiveData<List<Reservation>> = MutableLiveData()
 
     var list:List<Reservation> =listOf(
-                                        Reservation(0,"Football","test",true,"2023-04-20",2,"15:20",""),
-                                        Reservation(1,"Basketball","test",true,"2023-04-27",2,"16:20",""),
-                                        Reservation(2,"Handball","test",true,"2023-04-22",2,"10:15","")
+                                        Reservation(3,"Football","test",true,"2023-04-20",2,"15:20",""),
+                                        Reservation(4,"Basketball","test",true,"2023-04-27",2,"16:20",""),
+                                        Reservation(5,"Handball","test",true,"2023-04-22",2,"10:15","")
                                         )
 
     private val reservationDatabase = Room.databaseBuilder(
         application,
         AppDatabase::class.java,
         "reservation-db"
-    ).allowMainThreadQueries().build()
+    ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
 
     private val reservationRepository = BusinessLogic(reservationDatabase.reservationDao())
 
