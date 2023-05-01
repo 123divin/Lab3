@@ -1,27 +1,48 @@
 package it.polito.lab3
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.stacktips.view.CalendarListener
 import com.stacktips.view.CustomCalendarView
 import com.stacktips.view.DayDecorator
 import com.stacktips.view.DayView
 import com.stacktips.view.utils.CalendarUtils
+import it.polito.lab3.databinding.ActivityMainBinding
+import it.polito.lab3.models.Sport
+import it.polito.lab3.viewModel.SportViewModel
+import org.json.JSONArray
+import org.json.JSONException
+import java.io.BufferedReader
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.Date
 
 
+
 class MainActivity : AppCompatActivity() {
+
+    val sportsData = ArrayList<Sport>()
+    private lateinit var binding: ActivityMainBinding
+    lateinit var sportViewModel: SportViewModel
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         //////
+
+//        courtAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, courtData)
+//        binding.courtSpinner?.adapter = courtAdapter
 
         //Initialize CustomCalendarView from layout
         val calendarView: CustomCalendarView = findViewById(R.id.calendar_view);
@@ -62,6 +83,11 @@ class MainActivity : AppCompatActivity() {
         decorators.add(ReservationColorDecorator())
         calendarView.decorators = decorators
         calendarView.refreshCalendar(currentCalendar)
+
+        sportViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application))
+            .get( SportViewModel::class.java )
+
+        Log.d("gg", sportViewModel.all.toString())
     }
 
 
@@ -86,4 +112,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 }
