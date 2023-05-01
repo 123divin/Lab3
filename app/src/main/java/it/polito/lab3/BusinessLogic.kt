@@ -1,34 +1,51 @@
 package it.polito.lab3
 
+import android.database.Observable
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 
-class BusinessLogic {
-
-    lateinit var reservationDates:ArrayList<String>
-    lateinit var reserved:ReservationDAO
+class BusinessLogic(private  val reserved:ReservationDAO) {
 
 
 
-    fun getReservationByUser(userId:Int): ArrayList<String>? {
 
-        reservationDates.addAll(reserved.loadAllByIds(userId))
-        return reservationDates
+    fun getReservationByUser(userId:Int): List<Reservation> {
+
+        return reserved.loadAllByIds(userId)
+
+
     }
 
-    fun addNewReservation(reservation: Reservation): LiveData<Boolean>? {
+    fun addNewReservation(reservation: Reservation): Boolean {
 
         try {
+        reserved.insertAll(reservation)
 
         }catch (exception:Exception){
-
+            return false
         }
-        return null
+        return true
     }
 
-    fun cancelReservation(reservation: Reservation): LiveData<Boolean>? {
+    fun cancelReservation(reservation: Reservation): Boolean {
 
-        return null
+        try {
+            reserved.delete(reservation)
+
+        }catch (exception:Exception){
+            return false
+        }
+        return true
+    }
+
+    fun updateReservation(reservation: Reservation): Boolean {
+        try {
+            reserved.updateReservation(reservation)
+
+        }catch (exception:Exception){
+            return false
+        }
+        return true
     }
 
 

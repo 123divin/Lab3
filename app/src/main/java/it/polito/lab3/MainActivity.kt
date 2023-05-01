@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.stacktips.view.CalendarListener
 import com.stacktips.view.CustomCalendarView
 import com.stacktips.view.DayDecorator
@@ -16,12 +17,41 @@ import java.util.Locale
 import java.util.Date
 
 
+
 class MainActivity : AppCompatActivity() {
+
+    lateinit var viewModal: UserReservationViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        /*
+        viewModal= ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+        )[UserReservationViewModel::class.java]*/
+
+         viewModal = ViewModelProvider(this)[UserReservationViewModel::class.java]
+
+
+        viewModal.addReservation(null)
+        viewModal.loadReservation("2")
         //////
+
+        //creating a view modal here
+/*
+
+
+        viewModal.reservationDates
+
+        viewModal.reservationDates.observe(this, Observer { list ->
+            list?.let {
+                list.addAll()
+            }
+        })*/
+
+
 
         //Initialize CustomCalendarView from layout
         val calendarView: CustomCalendarView = findViewById(R.id.calendar_view);
@@ -59,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         //adding calendar day decorators
         val decorators: MutableList<DayDecorator> = ArrayList()
         decorators.add(DisabledColorDecorator())
-        decorators.add(ReservationColorDecorator())
+        decorators.add(ReservationColorDecorator(viewModal))
         calendarView.decorators = decorators
         calendarView.refreshCalendar(currentCalendar)
     }
@@ -74,14 +104,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private class ReservationColorDecorator : DayDecorator {
-        override fun decorate(dayView: DayView) {
-            val date1: Date = dayView.date
+    private class ReservationColorDecorator(var viewModal: UserReservationViewModel) : DayDecorator {
 
-            //TODO : we need to set here the day where we have an active reservation and then its done!
+
+
+        override fun decorate(dayView: DayView) {
+
+
+            val date1: Date = dayView.date
+            val color: Int = Color.parseColor("#00ff00")
+
+
+
+            for (item in viewModal.reservationDates.value!!){
+
+                val formatter = SimpleDateFormat("yyyy-MM-dd")
+                var dates = formatter.parse(item.reserve_date)
+                if(date1.date == dates.date && date1.year ==dates.year && date1.month == dates.month ){
+                    dayView.setBackgroundColor(color)
+                }
+            }
+
             val date2: Date = Calendar.getInstance().time
             if (date1.day == date2.day && date1.date == date2.date && date1.year ==date2.year && date1.month == date2.month) {
-                val color: Int = Color.parseColor("#00ff00")
+                val color: Int = Color.parseColor("#00f00f")
                 dayView.setBackgroundColor(color)
             }
         }
