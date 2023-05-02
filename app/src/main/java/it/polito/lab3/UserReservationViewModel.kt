@@ -14,18 +14,26 @@ class UserReservationViewModel(application: Application):AndroidViewModel(applic
      val reservationDates:MutableLiveData<List<Reservation>> = MutableLiveData()
 
     var list:List<Reservation> =listOf(
-                                        Reservation(3,"Football","test",true,"2023-04-20",2,"15:20",""),
-                                        Reservation(4,"Basketball","test",true,"2023-04-27",2,"16:20",""),
-                                        Reservation(5,"Handball","test",true,"2023-04-22",2,"10:15","")
+                                        Reservation(0,"Football","test",true,"2023-05-20",2,"15:20",""),
+                                        Reservation(0,"Basketball","test",true,"2023-05-27",2,"16:20",""),
+                                        Reservation(0,"Handball","test",true,"2023-05-22",2,"10:15","")
                                         )
+
+
+
+    /*
 
     private val reservationDatabase = Room.databaseBuilder(
         application,
         AppDatabase::class.java,
-        "reservation-db"
-    ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
+        "reservation"
+    ).allowMainThreadQueries().fallbackToDestructiveMigration().build()*/
 
-    private val reservationRepository = BusinessLogic(reservationDatabase.reservationDao())
+    private val reservationDatabase1 = AppDatabase.getDatabase(application.applicationContext)
+    private val reservationRepository = BusinessLogic(reservationDatabase1.reservationDao())
+
+
+    //private val reservationRepository = BusinessLogic(reservationDatabase.reservationDao())
 
 
     fun loadReservation(userId:String){
@@ -44,6 +52,8 @@ class UserReservationViewModel(application: Application):AndroidViewModel(applic
     fun addReservation(reservation: Reservation?)=viewModelScope.launch ( Dispatchers.IO ){
 
         for (item in list){
+            println("from the abyss " + item.reserve_date)
+
             reservationRepository.addNewReservation(item)
         }
       //  reservationRepository.addNewReservation(reservation)

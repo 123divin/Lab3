@@ -13,6 +13,9 @@ interface ReservationDAO{
     @Query("SELECT * FROM reservation WHERE userId IN (:userId)")
     fun loadAllByIds(userId: Int): List<Reservation>
 
+    @Query("SELECT * FROM reservation WHERE userId IN (:userId) and reserve_date IN (:reserve_date)")
+    fun getReservation(userId: Int,reserve_date:String):Reservation
+
     @Insert
     fun insertAll(vararg reservation: Reservation)
 

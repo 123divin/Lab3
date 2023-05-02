@@ -1,6 +1,6 @@
 package it.polito.lab3
 
-import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -16,9 +16,6 @@ import com.stacktips.view.utils.CalendarUtils
 //import it.polito.lab3.databinding.ActivityMainBinding
 import it.polito.lab3.models.Sport
 import it.polito.lab3.viewModel.SportViewModel
-import org.json.JSONArray
-import org.json.JSONException
-import java.io.BufferedReader
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -31,6 +28,9 @@ class MainActivity : AppCompatActivity() {
     val sportsData = ArrayList<Sport>()
    // private lateinit var binding: ActivityMainBinding
     lateinit var sportViewModel: SportViewModel
+
+    val appdatabase by lazy { AppDatabase.getDatabase(this) }
+
 
 
 
@@ -59,8 +59,8 @@ class MainActivity : AppCompatActivity() {
 //        binding.courtSpinner?.adapter = courtAdapter
 
         //Initialize CustomCalendarView from layout
-        val calendarView: CustomCalendarView = findViewById(R.id.calendar_view);
-        val selectedDateTv: TextView = findViewById(R.id.selected_date);
+        val calendarView: CustomCalendarView = findViewById(R.id.calendar_view)
+        val selectedDateTv: TextView = findViewById(R.id.selected_date)
 
         //Initialize calendar with date
         val currentCalendar: Calendar = Calendar.getInstance(Locale.getDefault())
@@ -80,6 +80,12 @@ class MainActivity : AppCompatActivity() {
                 if (!CalendarUtils.isPastDay(date)) {
                     val df = SimpleDateFormat("dd-MM-yyyy")
                     selectedDateTv.setText("Selected date is " + df.format(date))
+
+                    var dateToPas=df.format(date)
+
+                   startMyActivity(dateToPas)
+
+
                 } else {
                     selectedDateTv.setText("Selected date is disabled!")
                 }
@@ -113,6 +119,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun startMyActivity(date: String) {
+        val intent = Intent(this, MyActivity::class.java)
+        intent.putExtra("date",date)
+        startActivity(intent)
+    }
+
 
     private class ReservationColorDecorator(var viewModal: UserReservationViewModel) : DayDecorator {
 
