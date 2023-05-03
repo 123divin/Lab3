@@ -14,9 +14,9 @@ class UserReservationViewModel(application: Application):AndroidViewModel(applic
      val reservationDates:MutableLiveData<List<Reservation>> = MutableLiveData()
 
     var list:List<Reservation> =listOf(
-                                        Reservation(0,"Football","test",true,"2023-05-20",2,"15:20",""),
-                                        Reservation(0,"Basketball","test",true,"2023-05-27",2,"16:20",""),
-                                        Reservation(0,"Handball","test",true,"2023-05-22",2,"10:15","")
+                                        Reservation(1,"Football","test",true,"2023-05-20",2,"15:20",""),
+                                        Reservation(2,"Basketball","test",true,"2023-05-28",2,"16:20",""),
+                                        //Reservation(0,"Handball","test",true,"2023-05-23",2,"10:15","")
                                         )
 
 

@@ -19,7 +19,7 @@ class MyViewModel (application:Application): AndroidViewModel(application){
 
     private val _selectedTime:MutableLiveData<LocalTime> = MutableLiveData()
 
-    val reservationDates:MutableLiveData<List<Reservation>> = MutableLiveData()
+    private val reservationDates:MutableLiveData<List<Reservation>> = MutableLiveData()
 
     val selectedTime: LiveData<LocalTime>
         get() = _selectedTime
@@ -63,10 +63,22 @@ class MyViewModel (application:Application): AndroidViewModel(application){
        // TODO (CALL A BUSINESS LOGIC THAT WILL UPDATE(updateReservation) THE RESERVATION WHEN THE UPDATE BUTTON IS CLICKED)
         // Handle update button click here
         if(reservation.reserve_date != null){
+            println("reservation user ID" + reservation.userId)
+            println(reservation.reserve_date + "reserved date")
+
             val entryToDelete = reservationRepository.getReserveOnDate(reservation.userId, reservation.reserve_date)
+
+            println("we arrived at the update part")
+
+            if (reservationRepository.updateReservation(entryToDelete))  {
+                reservationDates.value=reservationRepository.getReservationByUser(reservation.userId)
+            }
+
+            /*
             if(reservationRepository.cancelReservation(entryToDelete)){
                 reservationRepository.addNewReservation(reservation)
-            }
+                reservationDates.value=reservationRepository.getReservationByUser(reservation.userId)
+            }*/
 
         }
 
@@ -74,9 +86,15 @@ class MyViewModel (application:Application): AndroidViewModel(application){
 
     fun onCancelButtonClicked(userId: Int, date: String):Boolean {
         // TODO
+        println("we entered in the cancel button")
         val entryToDelete = reservationRepository.getReserveOnDate(userId, date)
-        return reservationRepository.cancelReservation(entryToDelete)
-
+        println("entry to delete is $entryToDelete and ${entryToDelete.userId} and ${entryToDelete.reserve_date}")
+        if(reservationRepository.cancelReservation(entryToDelete)){
+            println("we canceled the reservation from here")
+            reservationDates.value=reservationRepository.getReservationByUser(userId)
+            return true
+        }
+        return false
         //_showCancelConfirmation
     }
 

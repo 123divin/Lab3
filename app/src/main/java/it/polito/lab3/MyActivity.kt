@@ -1,12 +1,15 @@
 package it.polito.lab3
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 class MyActivity : AppCompatActivity() {
@@ -20,12 +23,16 @@ private lateinit var viewModel: MyViewModel
         // Initialize ViewModel
         viewModel = ViewModelProvider(this)[MyViewModel::class.java]
 
-        var dateToCheck= intent.getStringExtra("date")
+        val dateToCheck= intent.getStringExtra("date")
 
         println("datae is $dateToCheck")
 
                 if (dateToCheck != null) {
-                        viewModel.reservationOnDate(2,dateToCheck)
+                        var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                        var date = LocalDate.parse(dateToCheck, formatter)
+                        var formatter2= DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        var date2= date.format(formatter2)
+                        viewModel.reservationOnDate(2,date2)
                 }
 
         // Find views by their IDs
@@ -55,15 +62,33 @@ private lateinit var viewModel: MyViewModel
         // Set up the update button
         updateButton.setOnClickListener {
                 if (dateToCheck != null){
-                        val reservation = viewModel.reservationOnDate(2, dateToCheck)
+                        var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                        var date = LocalDate.parse(dateToCheck, formatter)
+                        var formatter2= DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        var date2= date.format(formatter2)
+
+                        val reservation = viewModel.reservationOnDate(2, date2)
                         viewModel.onUpdateButtonClicked(reservation)
+                        returnMyActivity()
                 }
         }
 
         // Set up the cancel button
         cancelButton.setOnClickListener {
                 if (dateToCheck != null) {
-                        viewModel.onCancelButtonClicked(2, dateToCheck)
+                        var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                        var date = LocalDate.parse(dateToCheck, formatter)
+                        var formatter2= DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        var date2= date.format(formatter2)
+
+                        println(date2 + "is the real date")
+
+                        viewModel.onCancelButtonClicked(2, date2)
+                        returnMyActivity()
+
+
+
+
                 }
         }
 
@@ -93,4 +118,13 @@ private lateinit var viewModel: MyViewModel
                         }
                 }
         }
+
+
+        private fun returnMyActivity() {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
         }
+
+
+}
+

@@ -3,6 +3,8 @@ package it.polito.lab3
 import android.database.Observable
 import androidx.lifecycle.LiveData
 import androidx.room.Room
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class BusinessLogic(private  val reserved:ReservationDAO) {
 
@@ -21,12 +23,16 @@ class BusinessLogic(private  val reserved:ReservationDAO) {
 
     fun getReserveOnDate(userId: Int,reserve_date:String):Reservation{
 
-        var a:Reservation
+
+
+        val a:Reservation
+        println(reserved.getAll() + "all of the reservations please")
+        println(reserved.getReservation(2,reserve_date))
         try {
            a= reserved.getReservation(userId,reserve_date)
             println(a.id)
         }catch (exception:Exception){
-            println("this is the exception" + exception.message)
+            println("this is the exception with  $userId and $reserve_date"  + exception.message)
         }
         return reserved.getReservation(userId,reserve_date)
     }
@@ -46,24 +52,31 @@ class BusinessLogic(private  val reserved:ReservationDAO) {
 
     fun cancelReservation(reservation: Reservation): Boolean {
 
+        println("we entered in the business logic of reservation")
         try {
             reserved.delete(reservation)
 
         }catch (exception:Exception){
+            println("an error occurred  $exception")
+
             return false
         }
         return true
     }
 
-    /*fun updateReservation(reservation: Reservation): Boolean {
+    fun updateReservation(reservation: Reservation): Boolean {
         try {
+            println("we entered in the business logic of reservation update")
+
             reserved.updateReservation(reservation)
 
         }catch (exception:Exception){
+            println("an error occurred  $exception")
+
             return false
         }
         return true
-    }*/
+    }
 
 
 }
