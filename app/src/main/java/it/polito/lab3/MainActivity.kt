@@ -141,13 +141,13 @@ class MainActivity : AppCompatActivity() {
 
                 val formatter = SimpleDateFormat("yyyy-MM-dd")
                 var dates = formatter.parse(item.reserve_date)
-                if(date1.date == dates.date && date1.year ==dates.year && date1.month == dates.month ){
+                if(date1.date == dates.date && date1.day == dates.day && date1.year == dates.year && date1.month == dates.month ){
                     dayView.setBackgroundColor(color)
                 }
             }
 
             val date2: Date = Calendar.getInstance().time
-            if (date1.day == date2.day && date1.date == date2.date && date1.year ==date2.year && date1.month == date2.month) {
+            if (date1.date == date2.date && date1.day == date2.day  && date1.year ==date2.year && date1.month == date2.month) {
                 val color: Int = Color.parseColor("#00f00f")
                 dayView.setBackgroundColor(color)
             }

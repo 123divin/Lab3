@@ -20,9 +20,10 @@ interface ReservationDAO{
     fun insertAll(vararg reservation: Reservation)
 
     @Delete
-    fun delete(reservation: Reservation)
+    fun delete(vararg reservation: Reservation)
 
-    @Update()
-    fun updateReservation(reservation: Reservation)
+    //@Query("UPDATE reservation SET column1 = :newVal1, column2 = :newVal2 WHERE id = :entryId")
+    //fun updateReservation(reservation: Reservation)
+
 
 }

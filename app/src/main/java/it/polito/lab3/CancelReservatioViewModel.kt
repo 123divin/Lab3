@@ -58,14 +58,24 @@ class MyViewModel (application:Application): AndroidViewModel(application){
        return reservationRepository.getReserveOnDate(userId,date)
     }
 
-    fun onUpdateButtonClicked() {
+    fun onUpdateButtonClicked(reservation: Reservation) {
 
-       // TODO (CALL A BUSINESS LOGIC THAT WILL UPADTE(updateReservation) THE RESERVATION WHEN THE UPDATE BUTTON IS CLICKED)
+       // TODO (CALL A BUSINESS LOGIC THAT WILL UPDATE(updateReservation) THE RESERVATION WHEN THE UPDATE BUTTON IS CLICKED)
         // Handle update button click here
+        if(reservation.reserve_date != null){
+            val entryToDelete = reservationRepository.getReserveOnDate(reservation.userId, reservation.reserve_date)
+            if(reservationRepository.cancelReservation(entryToDelete)){
+                reservationRepository.addNewReservation(reservation)
+            }
+
+        }
+
     }
 
-    fun onCancelButtonClicked() {
-        // TODO (CALL A BUSINESS LOGIC THAT WILL DELETE (cancelReservation) THE RESERVATION WHEN THE UPDATE BUTTON IS CLICKED)
+    fun onCancelButtonClicked(userId: Int, date: String):Boolean {
+        // TODO
+        val entryToDelete = reservationRepository.getReserveOnDate(userId, date)
+        return reservationRepository.cancelReservation(entryToDelete)
 
         //_showCancelConfirmation
     }

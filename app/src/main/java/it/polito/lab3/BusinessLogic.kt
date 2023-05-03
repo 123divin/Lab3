@@ -55,7 +55,7 @@ class BusinessLogic(private  val reserved:ReservationDAO) {
         return true
     }
 
-    fun updateReservation(reservation: Reservation): Boolean {
+    /*fun updateReservation(reservation: Reservation): Boolean {
         try {
             reserved.updateReservation(reservation)
 
@@ -63,7 +63,7 @@ class BusinessLogic(private  val reserved:ReservationDAO) {
             return false
         }
         return true
-    }
+    }*/
 
 
 }

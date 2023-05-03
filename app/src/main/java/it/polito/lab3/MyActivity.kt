@@ -54,12 +54,17 @@ private lateinit var viewModel: MyViewModel
 
         // Set up the update button
         updateButton.setOnClickListener {
-        viewModel.onUpdateButtonClicked()
+                if (dateToCheck != null){
+                        val reservation = viewModel.reservationOnDate(2, dateToCheck)
+                        viewModel.onUpdateButtonClicked(reservation)
+                }
         }
 
         // Set up the cancel button
         cancelButton.setOnClickListener {
-        viewModel.onCancelButtonClicked()
+                if (dateToCheck != null) {
+                        viewModel.onCancelButtonClicked(2, dateToCheck)
+                }
         }
 
         // Observe changes in the ViewModel
