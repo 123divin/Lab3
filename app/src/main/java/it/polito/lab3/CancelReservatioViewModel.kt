@@ -8,6 +8,7 @@ import java.time.LocalTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.time.temporal.TemporalUnit
 import java.util.Date
 
 
@@ -58,19 +59,24 @@ class MyViewModel (application:Application): AndroidViewModel(application){
        return reservationRepository.getReserveOnDate(userId,date)
     }
 
-    fun onUpdateButtonClicked(reservation: Reservation) {
-
+    fun onUpdateButtonClicked(reservation: Reservation?) {
+        if (reservation == null){
+            return
+        }
        // TODO (CALL A BUSINESS LOGIC THAT WILL UPDATE(updateReservation) THE RESERVATION WHEN THE UPDATE BUTTON IS CLICKED)
         // Handle update button click here
-        if(reservation.reserve_date != null){
+        else if(reservation.reserve_date != null){
             println("reservation user ID" + reservation.userId)
             println(reservation.reserve_date + "reserved date")
 
             val entryToDelete = reservationRepository.getReserveOnDate(reservation.userId, reservation.reserve_date)
+//            val updatedEntry = entryToDelete.copy(time = selectedTime.value.toString(), requests = suggestion.value.toString())
+            val updatedEntry = entryToDelete.copy(time = selectedTime.value?.hour.toString() + ':' + selectedTime.value?.minute.toString() , requests = suggestion.value.toString())
 
             println("we arrived at the update part")
 
-            if (reservationRepository.updateReservation(entryToDelete))  {
+            //if (reservationRepository.updateReservation(entryToDelete))  {
+            if (reservationRepository.updateReservation(updatedEntry))  {
                 reservationDates.value=reservationRepository.getReservationByUser(reservation.userId)
             }
 
