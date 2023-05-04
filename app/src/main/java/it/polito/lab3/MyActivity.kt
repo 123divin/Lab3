@@ -69,7 +69,8 @@ private lateinit var viewModel: MyViewModel
 
                         val reservation = viewModel.reservationOnDate(2, date2)
                         viewModel.onUpdateButtonClicked(reservation)
-                        returnMyActivity()
+                        //returnMyActivity()
+                        finish()
                 }
         }
 
@@ -84,7 +85,8 @@ private lateinit var viewModel: MyViewModel
                         println(date2 + "is the real date")
 
                         viewModel.onCancelButtonClicked(2, date2)
-                        returnMyActivity()
+                        //returnMyActivity()
+                        finish()
 
 
 

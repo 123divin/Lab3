@@ -20,7 +20,7 @@ interface ReservationDAO{
     fun insertAll(vararg reservation: Reservation)
 
     @Delete
-    fun delete(vararg reservation: Reservation)
+    fun delete(reservation: Reservation)
 
     @Update
     fun updateReservation(reservation: Reservation)

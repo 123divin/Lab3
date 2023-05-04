@@ -110,6 +110,14 @@ class MainActivity : AppCompatActivity() {
         Log.d("gg", sportViewModel.all.toString())
     }
 
+    override fun onRestart() {
+        super.onRestart()
+
+        val calendarView: CustomCalendarView = findViewById(R.id.calendar_view)
+        val currentCalendar: Calendar = Calendar.getInstance(Locale.getDefault())
+        calendarView.refreshCalendar(currentCalendar)
+    }
+
 
     private class DisabledColorDecorator : DayDecorator {
         override fun decorate(dayView: DayView) {
