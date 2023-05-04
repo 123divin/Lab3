@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -74,6 +75,8 @@ class MainActivity : AppCompatActivity() {
         //call refreshCalendar to update calendar the view
         calendarView.refreshCalendar(currentCalendar)
 
+        val reservationButton = findViewById<Button>(R.id.select_date)
+
 
         calendarView.setCalendarListener(object : CalendarListener {
             override fun onDateSelected(date: Date?) {
@@ -83,7 +86,13 @@ class MainActivity : AppCompatActivity() {
 
                     var dateToPas=df.format(date)
 
-                   startMyActivity(dateToPas)
+                    reservationButton.setOnClickListener{
+                        startMyActivity(dateToPas)
+
+                    }
+
+
+                   //startMyActivity(dateToPas)
 
 
                 } else {
@@ -110,13 +119,19 @@ class MainActivity : AppCompatActivity() {
         Log.d("gg", sportViewModel.all.toString())
     }
 
-    override fun onRestart() {
-        super.onRestart()
 
+    /*override fun onRestart() {
+        super.onRestart()
         val calendarView: CustomCalendarView = findViewById(R.id.calendar_view)
         val currentCalendar: Calendar = Calendar.getInstance(Locale.getDefault())
+        //
+        //adding calendar day decorators
+        val decorators: MutableList<DayDecorator> = ArrayList()
+        decorators.add(DisabledColorDecorator())
+        decorators.add(ReservationColorDecorator(viewModal))
+        calendarView.decorators = decorators
         calendarView.refreshCalendar(currentCalendar)
-    }
+    }*/
 
 
     private class DisabledColorDecorator : DayDecorator {
@@ -141,24 +156,17 @@ class MainActivity : AppCompatActivity() {
 
         override fun decorate(dayView: DayView) {
             val date1: Date = dayView.date
-            val color: Int = Color.parseColor("#00ff00")
-
-
+            val color: Int = Color.parseColor("#00f00f")
 
             for (item in viewModal.reservationDates.value!!){
 
                 val formatter = SimpleDateFormat("yyyy-MM-dd")
                 var dates = formatter.parse(item.reserve_date)
-                if(date1.date == dates.date && date1.day == dates.day && date1.year == dates.year && date1.month == dates.month ){
+                if(date1.date == dates.date){
                     dayView.setBackgroundColor(color)
                 }
             }
 
-            val date2: Date = Calendar.getInstance().time
-            if (date1.date == date2.date && date1.day == date2.day  && date1.year ==date2.year && date1.month == date2.month) {
-                val color: Int = Color.parseColor("#00f00f")
-                dayView.setBackgroundColor(color)
-            }
         }
     }
 }
