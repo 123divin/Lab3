@@ -70,8 +70,7 @@ class MyViewModel (application:Application): AndroidViewModel(application){
             println(reservation.reserve_date + "reserved date")
 
             val entryToDelete = reservationRepository.getReserveOnDate(reservation.userId, reservation.reserve_date)
-//            val updatedEntry = entryToDelete.copy(time = selectedTime.value.toString(), requests = suggestion.value.toString())
-            val updatedEntry = entryToDelete.copy(time = selectedTime.value?.hour.toString() + ':' + selectedTime.value?.minute.toString() , requests = suggestion.value.toString())
+            val updatedEntry = entryToDelete.copy(time = selectedTime.value.toString().substring(0,5) , requests = suggestion.value.toString())
 
             println("we arrived at the update part")
 
