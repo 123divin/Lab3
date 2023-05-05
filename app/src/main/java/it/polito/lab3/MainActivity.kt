@@ -32,17 +32,11 @@ class MainActivity : AppCompatActivity() {
 
     val appdatabase by lazy { AppDatabase.getDatabase(this) }
 
-
-
-
-
     lateinit var viewModal: UserReservationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
         /*
         viewModal= ViewModelProvider(
             this,
@@ -50,8 +44,6 @@ class MainActivity : AppCompatActivity() {
         )[UserReservationViewModel::class.java]*/
 
          viewModal = ViewModelProvider(this)[UserReservationViewModel::class.java]
-
-
         viewModal.addReservation(null)
         viewModal.loadReservation("2")
         //////
@@ -120,18 +112,13 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    /*override fun onRestart() {
+    override fun onRestart() {
         super.onRestart()
+        viewModal.loadReservation("2")
         val calendarView: CustomCalendarView = findViewById(R.id.calendar_view)
         val currentCalendar: Calendar = Calendar.getInstance(Locale.getDefault())
-        //
-        //adding calendar day decorators
-        val decorators: MutableList<DayDecorator> = ArrayList()
-        decorators.add(DisabledColorDecorator())
-        decorators.add(ReservationColorDecorator(viewModal))
-        calendarView.decorators = decorators
         calendarView.refreshCalendar(currentCalendar)
-    }*/
+    }
 
 
     private class DisabledColorDecorator : DayDecorator {
