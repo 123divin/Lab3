@@ -18,30 +18,14 @@ class UserReservationViewModel(application: Application):AndroidViewModel(applic
                                         Reservation(2,"Basketball","test",true,"2023-05-28",2,"16:20",""),
                                         //Reservation(0,"Handball","test",true,"2023-05-23",2,"10:15","")
                                         )
-
-
-
-    /*
-
-    private val reservationDatabase = Room.databaseBuilder(
-        application,
-        AppDatabase::class.java,
-        "reservation"
-    ).allowMainThreadQueries().fallbackToDestructiveMigration().build()*/
-
     private val reservationDatabase1 = AppDatabase.getDatabase(application.applicationContext)
     private val reservationRepository = BusinessLogic(reservationDatabase1.reservationDao())
-
-
-    //private val reservationRepository = BusinessLogic(reservationDatabase.reservationDao())
-
 
     fun loadReservation(userId:String){
         var user:Int=userId.toInt()
         val reservationForUser = reservationRepository.getReservationByUser(user)
         reservationDates.value=reservationForUser
     }
-
 
 
     fun deleteReservation(reservation:Reservation)=viewModelScope.launch ( Dispatchers.IO ){
@@ -56,7 +40,6 @@ class UserReservationViewModel(application: Application):AndroidViewModel(applic
 
             reservationRepository.addNewReservation(item)
         }
-      //  reservationRepository.addNewReservation(reservation)
     }
 
 

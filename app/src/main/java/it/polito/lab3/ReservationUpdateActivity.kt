@@ -12,7 +12,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 
-class MyActivity : AppCompatActivity() {
+class ReservationUpdateActivity : AppCompatActivity() {
 
 private lateinit var viewModel: MyViewModel
 
@@ -123,7 +123,7 @@ private lateinit var viewModel: MyViewModel
 
 
         private fun returnMyActivity() {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, CalendarActivity::class.java)
                 startActivity(intent)
         }
 

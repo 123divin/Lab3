@@ -24,32 +24,23 @@ import java.util.Date
 
 
 
-class MainActivity : AppCompatActivity() {
+class CalendarActivity : AppCompatActivity() {
 
     val sportsData = ArrayList<Sport>()
-   // private lateinit var binding: ActivityMainBinding
     lateinit var sportViewModel: SportViewModel
 
-    val appdatabase by lazy { AppDatabase.getDatabase(this) }
+    //val appdatabase by lazy { AppDatabase.getDatabase(this) }
 
     lateinit var viewModal: UserReservationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        /*
-        viewModal= ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        )[UserReservationViewModel::class.java]*/
+
 
          viewModal = ViewModelProvider(this)[UserReservationViewModel::class.java]
         viewModal.addReservation(null)
         viewModal.loadReservation("2")
-        //////
-
-//        courtAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, courtData)
-//        binding.courtSpinner?.adapter = courtAdapter
 
         //Initialize CustomCalendarView from layout
         val calendarView: CustomCalendarView = findViewById(R.id.calendar_view)
@@ -75,25 +66,18 @@ class MainActivity : AppCompatActivity() {
                 if (!CalendarUtils.isPastDay(date)) {
                     val df = SimpleDateFormat("dd-MM-yyyy")
                     selectedDateTv.setText("Selected date is " + df.format(date))
-
                     var dateToPas=df.format(date)
 
                     reservationButton.setOnClickListener{
                         startMyActivity(dateToPas)
-
                     }
-
-
-                   //startMyActivity(dateToPas)
-
-
                 } else {
                     selectedDateTv.setText("Selected date is disabled!")
                 }
             }
             override fun onMonthChanged(date: Date?) {
                 val df = SimpleDateFormat("MM-yyyy")
-                Toast.makeText(this@MainActivity, df.format(date), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@CalendarActivity, df.format(date), Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -131,7 +115,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startMyActivity(date: String) {
-        val intent = Intent(this, MyActivity::class.java)
+        val intent = Intent(this, ReservationUpdateActivity::class.java)
         intent.putExtra("date",date)
         startActivity(intent)
     }
